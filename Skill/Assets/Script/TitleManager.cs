@@ -21,10 +21,11 @@ public class TitleManager : MonoBehaviour
         {
             carWheel[i] = car.transform.GetChild(i);
         }
-        titleButtons[0].onClick.AddListener(() => StartCoroutine(StageStart()));
+        titleButtons[0].onClick.AddListener(() => StartCoroutine(SceneMove(0)));
+        titleButtons[1].onClick.AddListener(() => StartCoroutine(SceneMove(1)));
         carPos = car.transform.position;
     }
-    IEnumerator StageStart()
+    IEnumerator SceneMove(int index)
     {
         float t = 0;
         Vector3 pos1 = car.transform.position;
@@ -35,7 +36,7 @@ public class TitleManager : MonoBehaviour
             t += Time.deltaTime;
             yield return null;
         }
-        SceneManager.Instance.StageStart(0);
+        SceneManager.Instance.StageStart(index);
     }
     private void Update()
     {
