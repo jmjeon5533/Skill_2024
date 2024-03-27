@@ -11,6 +11,11 @@ public class UIManager : MonoBehaviour
     {
         instance = this;
     }
+    private void Start()
+    {
+        var s = SceneManager.Instance;
+        if(s != null) StartCoroutine(s.fadeAlpha(0));
+    }
     public void Count(int count)
     {
         if(count <= 3 && count >= 1)

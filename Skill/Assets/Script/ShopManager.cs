@@ -32,6 +32,9 @@ public class ShopManager : MonoBehaviour
         DisableItem();
         DisablePanel();
         Panels[0].SetActive(true);
+        
+        var s = SceneManager.Instance;
+        StartCoroutine(s.fadeAlpha(0));
     }
     public void InitPanelBtn()
     {

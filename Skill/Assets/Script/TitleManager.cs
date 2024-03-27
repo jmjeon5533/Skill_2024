@@ -13,6 +13,7 @@ public class TitleManager : MonoBehaviour
     [SerializeField] private Transform car;
     private Transform[] carWheel;
     private Vector3 carPos;
+    bool isMove;
 
     private void Start()
     {
@@ -27,16 +28,19 @@ public class TitleManager : MonoBehaviour
     }
     IEnumerator SceneMove(int index)
     {
+        var s = SceneManager.Instance;
+        isMove = true;
         float t = 0;
         Vector3 pos1 = car.transform.position;
         Vector3 pos2 = pos1 + Vector3.right * 20;
-        while(t <= 2f)
+        while(t <= 1f)
         {
             car.transform.position = Vector3.Lerp(pos1,pos2,Mathf.Pow(t,3));
+            print(t);
             t += Time.deltaTime;
             yield return null;
         }
-        SceneManager.Instance.StageStart(index);
+        StartCoroutine(s.fadeAlpha(1)).OnComplete(() => s.StageStart(index));
     }
     private void Update()
     {
@@ -54,6 +58,7 @@ public class TitleManager : MonoBehaviour
         {
             c.transform.eulerAngles += Vector3.back * roadSpeed * 20 * Time.deltaTime;
         }
+        if(!isMove)
         car.transform.position = carPos + (Vector3)Random.insideUnitCircle * 0.03f;
     }
 }

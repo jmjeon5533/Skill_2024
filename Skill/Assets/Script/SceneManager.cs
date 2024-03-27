@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tuning
 {
@@ -23,6 +25,8 @@ public class Tuning
 public class SceneManager : MonoBehaviour
 {
     public static SceneManager Instance;
+    public Image fadeImage;
+    public Transform fadeCanvas;
     public Tuning tuning = new Tuning();
     public int stageIndex;
     private void Start()
@@ -30,6 +34,7 @@ public class SceneManager : MonoBehaviour
         if(Instance != null) Destroy(gameObject);
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(fadeCanvas);
         tuning.engineState = Tuning.EngineState.normal;
         tuning.tireState = Tuning.TireState.normal;
     }
@@ -37,5 +42,14 @@ public class SceneManager : MonoBehaviour
     public void StageStart(int stageIndex)
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(stageIndex + 1);
+    }
+    public IEnumerator fadeAlpha(int targetAlpha)
+    {
+        while(Mathf.Abs(fadeImage.color.a - targetAlpha) >= 0.01f)
+        {
+            var a = Mathf.MoveTowards(fadeImage.color.a,targetAlpha,Time.deltaTime);
+            fadeImage.color = new Color(0,0,0,a);
+            yield return null;
+        }
     }
 }
