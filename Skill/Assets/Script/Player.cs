@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
         cam.fieldOfView 
         = Mathf.Lerp(cam.fieldOfView,60 + (Vector3.Magnitude(rigidbody.velocity) * 1.5f),Time.deltaTime);
         minimapCam.transform.eulerAngles = new Vector3(45,model.eulerAngles.y,0);
-        var targetPos = Orientation.TransformPoint(new Vector3(0,23.42f,-13.8f));
+        var targetPos = Orientation.TransformPoint(new Vector3(0,35f,-26.8f));
         minimapCam.transform.position = targetPos;
     }
 }
