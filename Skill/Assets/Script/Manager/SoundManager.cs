@@ -12,7 +12,7 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance;
 
     [SerializeField] AudioSource audioObj;
-    private void Start()
+    private void Awake()
     {
         if (Instance != null) Destroy(gameObject);
         Instance = this;
@@ -31,6 +31,6 @@ public class SoundManager : MonoBehaviour
             sound.loop = false;
             Destroy(sound.gameObject, clip.length);
         }
-
+        sound.Play();
     }
 }

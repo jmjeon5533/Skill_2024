@@ -9,8 +9,11 @@ public class TitleManager : MonoBehaviour
 
     [SerializeField] private Transform[] titleProp;
     [SerializeField] private Transform[] titleRoad;
+    [SerializeField] private RectTransform ranking;
+    [SerializeField] private Button rankingBack;
     [SerializeField] private float roadSpeed;
     [SerializeField] private Transform car;
+    [SerializeField] private AudioClip BGM;
     private Transform[] carWheel;
     private Vector3 carPos;
     bool isMove;
@@ -24,7 +27,11 @@ public class TitleManager : MonoBehaviour
         }
         titleButtons[0].onClick.AddListener(() => StartCoroutine(SceneMove(0)));
         titleButtons[1].onClick.AddListener(() => StartCoroutine(SceneMove(1)));
+        titleButtons[2].onClick.AddListener(() => StartCoroutine(RankingDown(true)));
+        rankingBack.onClick.AddListener(() => StartCoroutine(RankingDown(false)));
         carPos = car.transform.position;
+        ranking.anchoredPosition = new Vector2(0,1200);
+        SoundManager.Instance.SetAudio(BGM,SoundManager.SoundState.BGM);
     }
     IEnumerator SceneMove(int index)
     {
@@ -41,6 +48,17 @@ public class TitleManager : MonoBehaviour
             yield return null;
         }
         StartCoroutine(s.fadeAlpha(1)).OnComplete(() => s.StageStart(index));
+    }
+    IEnumerator RankingDown(bool isActive)
+    {
+        var y = isActive ? 0 : 1200;
+        float t = 0;
+        while(t < 1)
+        {
+            ranking.anchoredPosition = Vector3.Lerp(ranking.anchoredPosition,new Vector3(0,y,0),Mathf.Pow(t,3));
+            t += Time.deltaTime;
+            yield return null;
+        }
     }
     private void Update()
     {

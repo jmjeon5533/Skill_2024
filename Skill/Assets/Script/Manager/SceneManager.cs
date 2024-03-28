@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
 public class Tuning
 {
     public enum TireState
@@ -19,6 +20,9 @@ public class Tuning
         six,
         eight
     }
+    public readonly string[] TireName = { "" , "사막 타이어" , "산악 타이어", "레이싱 타이어" };
+    public readonly string[] TireExplain = { "", "사막 스피드" , "산악 스피드", "도로 스피드" };
+    public readonly string[] EngineName = { "" , "6기통 엔진" , "8기통 엔진"};
     public TireState tireState;
     public EngineState engineState;
 }
@@ -29,14 +33,14 @@ public class SceneManager : MonoBehaviour
     public Transform fadeCanvas;
     public Tuning tuning = new Tuning();
     public int stageIndex;
+    public int money;
     private void Start()
     {
         if(Instance != null) Destroy(gameObject);
         Instance = this;
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(fadeCanvas);
-        tuning.engineState = Tuning.EngineState.normal;
-        tuning.tireState = Tuning.TireState.normal;
+        money = 1000000;
     }
 
     public void StageStart(int Index)

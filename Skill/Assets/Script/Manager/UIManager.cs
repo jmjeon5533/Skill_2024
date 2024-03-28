@@ -26,7 +26,6 @@ public class UIManager : MonoBehaviour
         if(count <= 3 && count >= 1)
         {
             countText.text = count.ToString();
-            if(count == 3) StartCoroutine(ShowUpgrade());
         }
         else
         {
@@ -35,12 +34,13 @@ public class UIManager : MonoBehaviour
     }
     public void AddShowImage(string UpgradeExplain, Color color)
     {
+        print("t");
         var img = Instantiate(showImages,showParent);
-        var text = img.transform.GetChild(0).GetComponent<TMP_Text>();
+        var text = img.transform.GetChild(0).GetComponent<Text>();
         img.color = color;
         text.text = UpgradeExplain;
     }
-    IEnumerator ShowUpgrade()
+    public IEnumerator ShowUpgrade()
     {
         print("show");
         float t = 0;

@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float friction;
     [SerializeField] private float driftFriction;
 
+    private AudioSource driveSound;
+
     private float curSteerSpeed;
     private new Rigidbody rigidbody;
     private new Collider collider;
@@ -30,6 +32,7 @@ public class Player : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
+        driveSound = GetComponent<AudioSource>();
         cam = Camera.main;
 
         Debug.Log(driftTrails.Count);
@@ -42,10 +45,10 @@ public class Player : MonoBehaviour
         {
             driftTrails.ForEach(t => t.gameObject.SetActive(true));
 
-            collider.sharedMaterial.staticFriction =
-                Mathf.Lerp(collider.sharedMaterial.staticFriction, driftFriction, Time.deltaTime * 2);
-            collider.sharedMaterial.dynamicFriction =
-                Mathf.Lerp(collider.sharedMaterial.dynamicFriction, driftFriction, Time.deltaTime * 2);
+            // collider.sharedMaterial.staticFriction =
+            //     Mathf.Lerp(collider.sharedMaterial.staticFriction, driftFriction, Time.deltaTime * 2);
+            // collider.sharedMaterial.dynamicFriction =
+            //     Mathf.Lerp(collider.sharedMaterial.dynamicFriction, driftFriction, Time.deltaTime * 2);
 
             curSteerSpeed = Mathf.Lerp(curSteerSpeed, driftSteerSpeed, Time.deltaTime * 2f);
         }
@@ -53,10 +56,10 @@ public class Player : MonoBehaviour
         {
             driftTrails.ForEach(t => t.gameObject.SetActive(false));
 
-            collider.sharedMaterial.staticFriction =
-                Mathf.Lerp(collider.sharedMaterial.staticFriction, friction, Time.deltaTime * 2);
-            collider.sharedMaterial.dynamicFriction =
-                Mathf.Lerp(collider.sharedMaterial.dynamicFriction, friction, Time.deltaTime * 2);
+            // collider.sharedMaterial.staticFriction =
+            //     Mathf.Lerp(collider.sharedMaterial.staticFriction, friction, Time.deltaTime * 2);
+            // collider.sharedMaterial.dynamicFriction =
+            //     Mathf.Lerp(collider.sharedMaterial.dynamicFriction, friction, Time.deltaTime * 2);
 
             curSteerSpeed = Mathf.Lerp(curSteerSpeed, steerSpeed, Time.deltaTime * 2f);
         }
@@ -68,6 +71,8 @@ public class Player : MonoBehaviour
         var velY = rigidbody.velocity.y;
         rigidbody.velocity = Vector3.ClampMagnitude(new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z), maxSpeed);
         rigidbody.velocity = new Vector3(rigidbody.velocity.x, velY, rigidbody.velocity.z);
+
+        driveSound.pitch = 1 + Vector3.Magnitude(rigidbody.velocity) / (maxSpeed * 0.75f);
     }
 
     private void FixedUpdate()
