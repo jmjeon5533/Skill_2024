@@ -47,7 +47,7 @@ public class TitleManager : MonoBehaviour
             t += Time.deltaTime;
             yield return null;
         }
-        StartCoroutine(s.fadeAlpha(1)).OnComplete(() => s.StageStart(index));
+        StartCoroutine(s.fadeOpen(false)).OnComplete(() => s.StageStart(index));
     }
     IEnumerator RankingDown(bool isActive)
     {

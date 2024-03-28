@@ -1624,6 +1624,12 @@ MonoBehaviour:
     item: {fileID: 298941562}
   - button: {fileID: 1823844831}
     item: {fileID: 1869802482}
+  textures:
+  - {fileID: 2800000, guid: 77ebe47050b9da5429e298527601e606, type: 3}
+  - {fileID: 2800000, guid: 8bc1eff89a764914cb5b5622d085bb9b, type: 3}
+  - {fileID: 2800000, guid: e2caa783111ac354895d496590c18027, type: 3}
+  - {fileID: 2800000, guid: 67e7a459349472f4e8ab2b6843e94573, type: 3}
+  - {fileID: 2800000, guid: cd6ffb622d5802f41b5391835b0fa068, type: 3}
   rotatePos: {fileID: 1794590397}
   SelectObj:
     button: {fileID: 0}

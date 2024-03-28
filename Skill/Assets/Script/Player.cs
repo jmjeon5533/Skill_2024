@@ -9,21 +9,19 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Transform orientation;
     [SerializeField] private Transform model;
+    [SerializeField] private GameObject[] engine;
     [SerializeField] private List<TrailRenderer> driftTrails;
-    [SerializeField] private Camera minimapCam;
+    [SerializeField] public Camera minimapCam;
     [SerializeField] private LayerMask modelAlignLayer;
     public float acc;
     public float maxSpeed;
     [SerializeField] private float steerSpeed;
     [SerializeField] private float driftSteerSpeed;
-    [SerializeField] private float friction;
-    [SerializeField] private float driftFriction;
 
     private AudioSource driveSound;
 
     private float curSteerSpeed;
     private new Rigidbody rigidbody;
-    private new Collider collider;
     private Camera cam;
 
     public Transform Orientation => orientation;
@@ -31,15 +29,22 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        collider = GetComponent<Collider>();
         driveSound = GetComponent<AudioSource>();
         cam = Camera.main;
 
         Debug.Log(driftTrails.Count);
+        for(int i = 0; i < engine.Length; i++)
+        {
+            if(engine[i] != null)
+            engine[i].SetActive(false);
+        }
+        var selectEngine = engine[(int)SceneManager.Instance.tuning.engineState];
+        if(selectEngine != null) selectEngine.SetActive(true);
     }
 
     private void Update()
     {
+        driveSound.pitch = 1 + Vector3.Magnitude(rigidbody.velocity) / (maxSpeed * 0.85f);
         if (!GameManager.Instance.isgame) return;
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -72,7 +77,6 @@ public class Player : MonoBehaviour
         rigidbody.velocity = Vector3.ClampMagnitude(new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z), maxSpeed);
         rigidbody.velocity = new Vector3(rigidbody.velocity.x, velY, rigidbody.velocity.z);
 
-        driveSound.pitch = 1 + Vector3.Magnitude(rigidbody.velocity) / (maxSpeed * 0.75f);
     }
 
     private void FixedUpdate()

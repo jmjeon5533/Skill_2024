@@ -25,6 +25,7 @@ public class Tuning
     public readonly string[] EngineName = { "" , "6기통 엔진" , "8기통 엔진"};
     public TireState tireState;
     public EngineState engineState;
+
 }
 public class SceneManager : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class SceneManager : MonoBehaviour
     public Image fadeImage;
     public Transform fadeCanvas;
     public Tuning tuning = new Tuning();
+    public Player basePlayer;
     public int stageIndex;
     public int money;
     private void Start()
@@ -48,12 +50,15 @@ public class SceneManager : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(Index + 1);
         stageIndex = Index + 1;
     }
-    public IEnumerator fadeAlpha(int targetAlpha)
+    public IEnumerator fadeOpen(bool isOpen)
     {
-        while(Mathf.Abs(fadeImage.color.a - targetAlpha) >= 0.01f)
+        float targetSize = isOpen ? 3000 : 0;
+        float t = 0;
+        while(t < 1)
         {
-            var a = Mathf.MoveTowards(fadeImage.color.a,targetAlpha,Time.deltaTime);
-            fadeImage.color = new Color(0,0,0,a);
+            var size = Mathf.Lerp(fadeImage.rectTransform.sizeDelta.x, targetSize, t);
+            fadeImage.rectTransform.sizeDelta = new Vector2(size,size);
+            t += Time.deltaTime * 0.5f;
             yield return null;
         }
     }

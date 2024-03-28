@@ -11,12 +11,19 @@ public class GameManager : MonoBehaviour
     public Transform[] curPath;
     public Player player;
     public Enemy enemy;
+    public Transform playerSpawnPoint;
 
     public bool isgame;
     private void Start()
     {
         SoundManager.Instance?.SetAudio(BGM,SoundManager.SoundState.BGM);
-        if(SceneManager.Instance != null) InitPlayer();
+        if(SceneManager.Instance != null)
+        {
+            player = Instantiate(SceneManager.Instance.basePlayer,playerSpawnPoint.position,Quaternion.identity);
+            player.transform.rotation = playerSpawnPoint.rotation;
+            Camera.main.GetComponent<CameraMover>().player = player;
+            InitPlayer();
+        }
         isgame = false;
         StartCoroutine(GameStart());
     }
@@ -66,5 +73,11 @@ public class GameManager : MonoBehaviour
             }
             yield return null;
         }
+    }
+    public void GameEnd(bool isPlayerWin)
+    {
+        UIManager.instance.countText.text = isPlayerWin ? "Win!" : "Lose";
+        UIManager.instance.countText.color = isPlayerWin ? Color.yellow : Color.red;
+        isgame = false;
     }
 }

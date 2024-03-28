@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
-    [SerializeField] private TMP_Text countText;
+    [SerializeField] public TMP_Text countText;
     [SerializeField] Image showImages;
     [SerializeField] RectTransform showParent;
     private void Awake()
@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         var s = SceneManager.Instance;
-        if(s != null) StartCoroutine(s.fadeAlpha(0));
+        if(s != null) StartCoroutine(s.fadeOpen(true));
         showParent.anchoredPosition = new Vector2(-100, 1200);
     }
     public void Count(int count)

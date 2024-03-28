@@ -7,7 +7,7 @@ public class CameraMover : MonoBehaviour
     [SerializeField] private Vector3 posOffset;
     [SerializeField] private Vector3 lookOffset;
     [SerializeField] private float speed;
-    [SerializeField] private Player player;
+    [SerializeField] public Player player;
 
 
     void FixedUpdate()

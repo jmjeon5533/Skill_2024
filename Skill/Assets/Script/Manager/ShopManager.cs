@@ -21,6 +21,7 @@ public class ShopManager : MonoBehaviour
     public ShopButtons[] tire;
     public ShopButtons[] engine;
     public ShopButtons[] decoration;
+    public Texture2D[] textures;
     public Transform rotatePos;
     [Space(10)]
 
@@ -34,7 +35,7 @@ public class ShopManager : MonoBehaviour
         Panels[0].SetActive(true);
         
         var s = SceneManager.Instance;
-        StartCoroutine(s.fadeAlpha(0));
+        StartCoroutine(s.fadeOpen(true));
     }
     public void InitPanelBtn()
     {

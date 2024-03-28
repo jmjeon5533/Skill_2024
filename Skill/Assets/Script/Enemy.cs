@@ -36,11 +36,11 @@ public class Enemy : MonoBehaviour
     protected virtual void Movement()
     {
         var g = GameManager.Instance;
-        if (Vector3.Distance(rigid.position, agent.transform.position) < 5)
+        if (Vector3.Distance(rigid.position, agent.transform.position) < 10)
         {
             agent.isStopped = false;
             agent.SetDestination(g.curPath[pathIndex].position);
-            if (Vector3.Distance(agent.transform.position, g.curPath[pathIndex].position) <= 15)
+            if (Vector3.Distance(agent.transform.position, g.curPath[pathIndex].position) <= 20)
             {
                 pathIndex++;
                 if (pathIndex >= g.curPath.Length) pathIndex = 0;
@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
     private void FixedUpdate()
     {
         if (rigid == null || !GameManager.Instance.isgame) return;
-            rigid.AddForce((agent.transform.position - rigid.transform.position).normalized * 30, ForceMode.Acceleration);
+            rigid.AddForce((agent.transform.position - rigid.transform.position).normalized * 22, ForceMode.Acceleration);
             rigid.velocity = Vector3.ClampMagnitude(rigid.velocity, 25);
     }
 }
