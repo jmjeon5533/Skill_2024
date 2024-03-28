@@ -39,9 +39,10 @@ public class SceneManager : MonoBehaviour
         tuning.tireState = Tuning.TireState.normal;
     }
 
-    public void StageStart(int stageIndex)
+    public void StageStart(int Index)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(stageIndex + 1);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(Index + 1);
+        stageIndex = Index + 1;
     }
     public IEnumerator fadeAlpha(int targetAlpha)
     {

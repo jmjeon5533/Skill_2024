@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
     [SerializeField] private List<TrailRenderer> driftTrails;
     [SerializeField] private Camera minimapCam;
     [SerializeField] private LayerMask modelAlignLayer;
-    [SerializeField] private float acc;
-    [SerializeField] private float maxSpeed;
+    public float acc;
+    public float maxSpeed;
     [SerializeField] private float steerSpeed;
     [SerializeField] private float driftSteerSpeed;
     [SerializeField] private float friction;

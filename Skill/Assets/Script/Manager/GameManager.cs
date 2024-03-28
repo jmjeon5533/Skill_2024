@@ -14,8 +14,20 @@ public class GameManager : MonoBehaviour
     public bool isgame;
     private void Start()
     {
+        InitPlayer();
         isgame = false;
         StartCoroutine(GameStart());
+    }
+    private void InitPlayer()
+    {
+        var s = SceneManager.Instance;
+        print($"{(int)s.tuning.tireState}, {s.stageIndex}");
+        if((int)s.tuning.tireState + 1 == s.stageIndex)
+        {
+            player.acc += 5;
+            player.maxSpeed += 5;
+            print("Tire Upgrade!");
+        }
     }
     IEnumerator GameStart()
     {
