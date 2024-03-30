@@ -8,13 +8,14 @@ public class Player : MonoBehaviour
     public static Player Instance => instance ??= FindObjectOfType<Player>();
 
     [SerializeField] private Transform orientation;
-    [SerializeField] private Transform model;
+    [SerializeField] public Transform model;
     [SerializeField] private GameObject[] engine;
     [SerializeField] private List<TrailRenderer> driftTrails;
     [SerializeField] public Camera minimapCam;
     [SerializeField] private LayerMask modelAlignLayer;
     public float acc;
     public float maxSpeed;
+    private float addSpeedValue;
     [SerializeField] private float steerSpeed;
     [SerializeField] private float driftSteerSpeed;
 
@@ -82,11 +83,22 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         if (!GameManager.Instance.isgame) return;
-        rigidbody.AddForce(Input.GetAxisRaw("Vertical") * model.forward * acc, ForceMode.Acceleration);
+        rigidbody.AddForce(Input.GetAxisRaw("Vertical") * model.forward * (acc + addSpeedValue), ForceMode.Acceleration);
         cam.fieldOfView 
         = Mathf.Lerp(cam.fieldOfView,60 + (Vector3.Magnitude(rigidbody.velocity) * 1.5f),Time.deltaTime);
         minimapCam.transform.eulerAngles = new Vector3(45,model.eulerAngles.y,0);
         var targetPos = Orientation.TransformPoint(new Vector3(0,35f,-26.8f));
         minimapCam.transform.position = targetPos;
+    }
+    public void Booster(int value)
+    {
+        StartCoroutine(SpeedUp(value));
+    }
+    IEnumerator SpeedUp(int value)
+    {
+        addSpeedValue = value;
+        yield return new WaitForSeconds(2);
+        print("down");
+        addSpeedValue = 0;
     }
 }

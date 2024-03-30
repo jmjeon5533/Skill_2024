@@ -13,13 +13,16 @@ public class GameManager : MonoBehaviour
     public Enemy enemy;
     public Transform playerSpawnPoint;
 
+    public float playerStack = 0;
+    public float enemyStack = 0;
+
     public bool isgame;
     private void Start()
     {
-        SoundManager.Instance?.SetAudio(BGM,SoundManager.SoundState.BGM);
-        if(SceneManager.Instance != null)
+        SoundManager.Instance?.SetAudio(BGM, SoundManager.SoundState.BGM);
+        if (SceneManager.Instance != null)
         {
-            player = Instantiate(SceneManager.Instance.basePlayer,playerSpawnPoint.position,Quaternion.identity);
+            player = Instantiate(SceneManager.Instance.basePlayer, playerSpawnPoint.position, Quaternion.identity);
             player.transform.rotation = playerSpawnPoint.rotation;
             Camera.main.GetComponent<CameraMover>().player = player;
             InitPlayer();
@@ -32,24 +35,22 @@ public class GameManager : MonoBehaviour
         var s = SceneManager.Instance;
         var tireIndex = (int)s.tuning.tireState;
         var engineIndex = (int)s.tuning.engineState;
+        player.model.GetChild(0).GetComponent<MeshRenderer>().material = s.material;
         print($"{(int)s.tuning.tireState}, {s.stageIndex}");
-        if(tireIndex == s.stageIndex)
+        if (tireIndex == s.stageIndex)
         {
             player.acc += 3;
             player.maxSpeed += 3;
             print("Tire Upgrade!");
-            print(s.tuning.TireName[tireIndex]);
-            print(s.tuning.TireExplain[tireIndex]);
-            print(UIManager.instance == null);
             UIManager.instance.AddShowImage($"{s.tuning.TireName[tireIndex]}\n{s.tuning.TireExplain[tireIndex]} +3"
-            ,new Color(0.3f,1,1,0.65f));
+            , new Color(0.3f, 1, 1, 0.65f));
         }
-        if(engineIndex != 0)
+        if (engineIndex != 0)
         {
-            player.acc += 3;
-            player.maxSpeed += 3;
+            player.acc += 3 + (1 * engineIndex);
+            player.maxSpeed += 3 + (1 * engineIndex);
             print("Engine Upgrade!");
-            UIManager.instance.AddShowImage($"{s.tuning.EngineName[engineIndex]}\n출력 스피드 +3",new Color(1,0.5f,0.3f,0.65f));
+            UIManager.instance.AddShowImage($"{s.tuning.EngineName[engineIndex]}\n출력 스피드 +{3 + (1 * engineIndex)}", new Color(1, 0.5f, 0.3f, 0.65f));
         }
     }
     IEnumerator GameStart()
@@ -66,7 +67,7 @@ public class GameManager : MonoBehaviour
                 break;
             }
             timer -= Time.deltaTime;
-            if(countTime >= timer) 
+            if (countTime >= timer)
             {
                 UIManager.instance.Count(countTime);
                 countTime--;

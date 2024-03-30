@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class Finish : MonoBehaviour
 {
-    public float playerStack;
-    public float enemyStack;
 
     private void OnTriggerExit(Collider other)
     {
+        var g = GameManager.Instance;
         if (other.CompareTag("Player"))
         {
-            playerStack++;
-            if (playerStack >= 2) GameManager.Instance.GameEnd(true);
+            g.playerStack++;
+            if (g.playerStack >= 2) GameManager.Instance.GameEnd(true);
         }
         else if (other.CompareTag("Enemy"))
         {
-            enemyStack++;
-            if (playerStack >= 2) GameManager.Instance.GameEnd(false);
+            g.enemyStack++;
+            if (g.enemyStack >= 2) GameManager.Instance.GameEnd(false);
         }
     }
 }

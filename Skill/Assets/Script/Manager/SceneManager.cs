@@ -25,7 +25,17 @@ public class Tuning
     public readonly string[] EngineName = { "" , "6기통 엔진" , "8기통 엔진"};
     public TireState tireState;
     public EngineState engineState;
-
+}
+[System.Serializable]
+public class SaveData
+{
+    public string name;
+    public int score;
+}
+[System.Serializable]
+public class Save
+{
+    public List<SaveData> saveList = new List<SaveData>();
 }
 public class SceneManager : MonoBehaviour
 {
@@ -33,22 +43,27 @@ public class SceneManager : MonoBehaviour
     public Image fadeImage;
     public Transform fadeCanvas;
     public Tuning tuning = new Tuning();
+    public Save saveData;
+    public Material material;
     public Player basePlayer;
     public int stageIndex;
+    public float curTotalTimer;
     public int money;
+
     private void Start()
     {
+        LoadRanking();
         if(Instance != null) Destroy(gameObject);
         Instance = this;
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(fadeCanvas);
-        money = 1000000;
     }
 
     public void StageStart(int Index)
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(Index + 1);
         stageIndex = Index + 1;
+        curTotalTimer = 0;
     }
     public IEnumerator fadeOpen(bool isOpen)
     {
@@ -61,5 +76,19 @@ public class SceneManager : MonoBehaviour
             t += Time.deltaTime * 0.5f;
             yield return null;
         }
+    }
+    public void SetRanking(string nickname, int count)
+    {
+        
+    }
+    public void LoadRanking()
+    {
+        var saves = PlayerPrefs.GetString("SaveData");
+        saveData = JsonUtility.FromJson<Save>(saves) ?? new Save();
+    }
+    public void SaveRanking()
+    {
+        var saves = JsonUtility.ToJson(saveData);
+        PlayerPrefs.SetString("SaveData",saves);
     }
 }

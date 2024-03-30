@@ -29,9 +29,9 @@ public class Enemy : MonoBehaviour
         Movement();
 
         Physics.Raycast(model.position, Vector3.down, out var hit, 10f, modelAlignLayer);
+        model.LookAt(agent.transform.position);
         model.rotation = Quaternion.Lerp(model.rotation, Quaternion.FromToRotation(Vector3.up, hit.normal) * orientation.rotation, Time.deltaTime * 8);
         
-        model.LookAt(agent.transform.position);
     }
     protected virtual void Movement()
     {

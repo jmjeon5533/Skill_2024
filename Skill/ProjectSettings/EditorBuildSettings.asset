@@ -10,6 +10,9 @@ EditorBuildSettings:
     guid: f11e001018dd3094185b1581f508af71
   - enabled: 1
     path: Assets/Scenes/Stage/Desert.unity
+    guid: 16b445e5c115b194499dd2a099accba8
+  - enabled: 1
+    path: Assets/Scenes/Stage/Mountain.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/Shop.unity
